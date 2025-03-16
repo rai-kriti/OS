@@ -9,22 +9,22 @@
 </head>
 <body class="bg-gray-100 p-5">
     <div class="max-w-4xl mx-auto bg-white p-5 shadow-lg rounded-lg">
-        <h1 class="text-2xl font-bold mb-5">Disk Scheduling Simulator</h1>
+        <h1 class="text-4xl font-bold mb-5 text-center">Simulator</h1>
         
         <label class="block mb-2">Enter Disk Access Requests (comma-separated):</label>
         <input id="requests" type="text" class="w-full p-2 border border-gray-300 rounded mb-4">
-        
+    
         <label class="block mb-2">Enter Initial Head Position:</label>
         <input id="headPosition" type="number" class="w-full p-2 border border-gray-300 rounded mb-4">
 
-        <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex flex-wrap gap-0.5 mb-4 justify-around">
             <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded">FCFS</button>
-            <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded">Toggle SSTF</button>
-            <button onclick="toggleAlgorithm('SCAN')" class="bg-yellow-500 text-white px-4 py-2 rounded">Toggle SCAN</button>
-            <button onclick="toggleAlgorithm('C-SCAN')" class="bg-red-500 text-white px-4 py-2 rounded">Toggle C-SCAN</button>
+            <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded">SSTF</button>
+            <button onclick="toggleAlgorithm('SCAN')" class="bg-yellow-500 text-white px-4 py-2 rounded">SCAN</button>
+            <button onclick="toggleAlgorithm('C-SCAN')" class="bg-red-500 text-white px-4 py-2 rounded">C-SCAN</button>
             <button onclick="resetInputs()" class="bg-gray-500 text-white px-4 py-2 rounded">Reset</button>
-            <button onclick="clearMetrics()" class="bg-purple-500 text-white px-4 py-2 rounded">Clear Metrics</button>
-
+            <button onclick="clearMetrics()" class="bg-gray-500 text-white px-4 py-2 rounded">Metrics</button>
+            <button onclick="clearChart()" class="bg-gray-500 text-white px-4 py-2 rounded">Chart</button>
         </div>
 
         <canvas id="comparisonChart" class="mb-4"></canvas>
@@ -178,6 +178,17 @@
         function clearMetrics() {
     document.getElementById("performanceMetrics").innerHTML = ""; // Clears the metrics
 }
+function clearChart() {
+            if (comparisonChartInstance) {
+                comparisonChartInstance.destroy();
+                comparisonChartInstance = null;
+            }
+            if (seekTimeComparatorInstance) {
+                seekTimeComparatorInstance.destroy();
+                seekTimeComparatorInstance = null;
+            }
+            console.log("Charts cleared");
+        }
 
         function resetInputs() {
             document.getElementById("requests").value = '';
@@ -189,28 +200,31 @@
 
         let seekTimeComparatorInstance = null;
 
-function updateSeekTimeComparator(results) {
-    if (seekTimeComparatorInstance) seekTimeComparatorInstance.destroy();
-    const ctx = document.getElementById("seekTimeComparator").getContext("2d");
 
-    seekTimeComparatorInstance = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: results.map(r => r.algo),
-            datasets: [{
-                label: "Total Seek Time",
-                data: results.map(r => r.seekTime),
-                backgroundColor: ["blue", "green", "yellow", "red"]
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { title: { display: true, text: "Seek Time" } }
-            }
+function updateSeekTimeComparator(results) {
+            if (seekTimeComparatorInstance) seekTimeComparatorInstance.destroy();
+            const ctx = document.getElementById("seekTimeComparator").getContext("2d");
+
+            seekTimeComparatorInstance = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: results.map(r => r.algo),
+                    datasets: [{
+                        data: results.map(r => r.seekTime),
+                        backgroundColor: ["blue", "green", "yellow", "red"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { title: { display: true, text: "Seek Time" } }
+                    }
+                }
+            });
         }
-    });
-}
 
     </script>
 </body>
