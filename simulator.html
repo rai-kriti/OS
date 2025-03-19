@@ -103,23 +103,48 @@
             return { algo, movements, seekTime, avgSeekTime: seekTime / requests.length, order };
         }
 
+      
         function updateComparisonChart(results) {
-            if (comparisonChartInstance) comparisonChartInstance.destroy();
-            const ctx = document.getElementById("comparisonChart").getContext("2d");
+    if (comparisonChartInstance) comparisonChartInstance.destroy();
+    const ctx = document.getElementById("comparisonChart").getContext("2d");
 
-            comparisonChartInstance = new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: results.length ? results[0].movements.map((_, i) => i) : [],
-                    datasets: results.map((res, i) => ({
-                        label: res.algo,
-                        data: res.movements,
-                        borderColor: ["blue", "green", "yellow", "red"][i],
-                        fill: false
-                    }))
+    comparisonChartInstance = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: results.length ? results[0].movements.map((_, i) => i) : [],
+            datasets: results.map((res, i) => ({
+                label: res.algo,
+                data: res.movements,
+                borderColor: ["blue", "green", "yellow", "red"][i],
+                borderWidth: 8, // Increase line thickness
+                fill: false
+            }))
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Requests",
+                        font: { size: 32, weight: 'bold' } ,// Make x-axis text bigger and bolder
+                        ticks: { font: { size: 24, weight: 'bold' } }
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Disk Track Positions",
+                        font: { size: 16, weight: 'bold' } ,// Make y-axis text bigger and bolder
+                        ticks: { font: { size: 24, weight: 'bold' } }
+                    }
+
                 }
-            });
+            }
         }
+    });
+}
+
 
         function updateMetrics(results) {
             let metricsHtml = "";
@@ -157,15 +182,19 @@
                         label: `${label} Seek Times`,
                         data: data,
                         borderColor: getRandomColor(),
-                        borderWidth: 2,
+                        borderWidth: 8,
                         fill: false,
                     }],
                 },
                 options: {
                     responsive: true,
                     scales: {
-                        x: { title: { display: true, text: "Requests" } },
-                        y: { title: { display: true, text: "Seek Time (ms)" } },
+                        x: { title: { display: true, text: "Requests" ,
+                        font: { size: 16, weight: 'bold' }
+                        } },
+                        y: { title: { display: true, text: "Seek Time (ms)" ,
+                        font: { size: 16, weight: 'bold' }
+                        } },
                     },
                 },
             });
