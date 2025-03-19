@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disk Scheduling Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-black p-5">
+    <div class="max-w-4xl mx-auto bg-black p-5 shadow-lg rounded-lg border border-white">
+        <h1 class="text-4xl font-bold mb-5 text-center text-white">Simulator</h1>
+        
+        <label class="block mb-2 text-white">Enter Disk Access Requests (comma-separated):</label>
+        <input id="requests" type="text" class="w-full p-2 border border-gray-300 rounded mb-4">
+    
+        <label class="block mb-2 text-white">Enter Initial Head Position:</label>
+        <input id="headPosition" type="number" class="w-full p-2 border border-gray-300 rounded mb-4">
+
+        <div class="flex flex-wrap gap-0.5 mb-4 justify-around">
+            <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded">FCFS</button>
+            <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded">SSTF</button>
+            <button onclick="toggleAlgorithm('SCAN')" class="bg-yellow-500 text-white px-4 py-2 rounded">SCAN</button>
+            <button onclick="toggleAlgorithm('C-SCAN')" class="bg-red-500 text-white px-4 py-2 rounded">C-SCAN</button>
+            <button onclick="resetInputs()" class="bg-gray-500 text-white px-4 py-2 rounded">Reset</button>
+            <button onclick="clearMetrics()" class="bg-gray-500 text-white px-4 py-2 rounded">Metrics</button>
+            <button onclick="clearChart()" class="bg-gray-500 text-white px-4 py-2 rounded">Chart</button>
+        </div>
+
+        <canvas id="comparisonChart" class="mb-4"></canvas>
+        <p class="text-sm text-gray-600 text-center">X-axis: Sequence of disk access requests | Y-axis: Disk track positions</p>
+        <div id="performanceMetrics" class="p-3 bg-gray-200 rounded"></div>
+        <div id="chartsContainer" class="mt-5"></div>
+    </div>
+    <canvas id="seekTimeComparator" class="mb-4"></canvas>
+
+
+    <script>
+        let activeAlgorithms = new Set();
+        let comparisonChartInstance = null;
+
+        function toggleAlgorithm(algo) {
+            if (activeAlgorithms.has(algo)) {
+                activeAlgorithms.delete(algo);
+            } else {
+                activeAlgorithms.add(algo);
+            }
+            runAlgorithms();
+        }
+
+        function runAlgorithms() {
+            const requests = document.getElementById("requests").value.split(",").map(Number);
+            const head = parseInt(document.getElementById("headPosition").value);
+
+            if (isNaN(head) || requests.some(isNaN)) {
+                alert("Invalid input! Please enter valid numbers.");
+                return;
+            }
+
+            let results = Array.from(activeAlgorithms).map(algo => diskScheduling(algo, requests, head));
+            updateComparisonChart(results);
+            updateMetrics(results);
+            updateCharts(results);
+            updateSeekTimeComparator(results);
+
+        }
+
+        function diskScheduling(algo, requests, head) {
+            let seekTime = 0;
+            let movements = [head];
+            let sortedRequests = [...requests].sort((a, b) => a - b);
+            let order = [];
+
+            if (algo === 'FCFS') {
+                seekTime = requests.reduce((sum, req, i) => sum + Math.abs(req - (i ? requests[i - 1] : head)), 0);
+                movements.push(...requests);
+                order = [head, ...requests];
+            } else if (algo === 'SSTF') {
+                let remaining = [...requests];
+                let current = head;
+                while (remaining.length) {
+                    let closest = remaining.reduce((prev, curr) => Math.abs(curr - current) < Math.abs(prev - current) ? curr : prev);
+                    seekTime += Math.abs(closest - current);
+                    current = closest;
+                    movements.push(current);
+                    order.push(current);
+                    remaining.splice(remaining.indexOf(closest), 1);
+                }
+            } else if (algo === 'SCAN') {
+                let left = sortedRequests.filter(req => req < head).reverse();
+                let right = sortedRequests.filter(req => req >= head);
+                movements.push(...right, ...left);
+                order = [head, ...right, ...left];
+                seekTime = Math.max(...requests) - Math.min(...requests);
+            } else if (algo === 'C-SCAN') {
+                let left = sortedRequests.filter(req => req < head);
+                let right = sortedRequests.filter(req => req >= head);
+                movements.push(...right, Math.max(...requests), Math.min(...requests), ...left);
+                order = [head, ...right, Math.max(...requests), Math.min(...requests), ...left];
+                seekTime = Math.max(...requests) - head + Math.max(...requests) - Math.min(...requests);
+            }
+
+            return { algo, movements, seekTime, avgSeekTime: seekTime / requests.length, order };
+        }
+
+        function updateComparisonChart(results) {
+            if (comparisonChartInstance) comparisonChartInstance.destroy();
+            const ctx = document.getElementById("comparisonChart").getContext("2d");
+
+            comparisonChartInstance = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: results.length ? results[0].movements.map((_, i) => i) : [],
+                    datasets: results.map((res, i) => ({
+                        label: res.algo,
+                        data: res.movements,
+                        borderColor: ["blue", "green", "yellow", "red"][i],
+                        fill: false
+                    }))
+                }
+            });
+        }
+
+        function updateMetrics(results) {
+            let metricsHtml = "";
+            results.forEach(res => {
+                metricsHtml += `<p><strong>${res.algo} Execution Order:</strong> ${res.order.join(" → ")}</p>`;
+                metricsHtml += `<p><strong>${res.algo} Total Seek Time:</strong> ${res.seekTime}</p>`;
+                metricsHtml += `<p><strong>${res.algo} Average Seek Time:</strong> ${res.avgSeekTime.toFixed(2)}</p>`;
+                metricsHtml += `<p><strong>${res.algo} System Throughput:</strong> ${(1 / res.avgSeekTime).toFixed(4)} operations per time unit</p>`;
+                metricsHtml += "<hr>";
+            });
+            document.getElementById("performanceMetrics").innerHTML = metricsHtml;
+        }
+
+        function updateCharts(results) {
+            const container = document.getElementById("chartsContainer");
+            container.innerHTML = "";
+            results.forEach(res => {
+                const chartId = `chart-${res.algo}`;
+                const chartDiv = document.createElement("div");
+                chartDiv.innerHTML = `
+                    <canvas id="${chartId}" class="mb-4"></canvas>
+                    <p class="text-center font-bold">Total Seek Time: ${res.seekTime}</p>
+                `;
+                container.appendChild(chartDiv);
+                renderChart(chartId, res.order, res.algo);
+            });
+        }
+
+        function renderChart(chartId, data, label) {
+            new Chart(document.getElementById(chartId), {
+                type: "line",
+                data: {
+                    labels: data.map((_, i) => i),
+                    datasets: [{
+                        label: `${label} Seek Times`,
+                        data: data,
+                        borderColor: getRandomColor(),
+                        borderWidth: 2,
+                        fill: false,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: "Requests" } },
+                        y: { title: { display: true, text: "Seek Time (ms)" } },
+                    },
+                },
+            });
+        }
+
+        function getRandomColor() {
+            return "#" + Math.floor(Math.random() * 16777215).toString(16);
+        }
+
+        function clearMetrics() {
+    document.getElementById("performanceMetrics").innerHTML = ""; // Clears the metrics
+}
+function clearChart() {
+            if (comparisonChartInstance) {
+                comparisonChartInstance.destroy();
+                comparisonChartInstance = null;
+            }
+            if (seekTimeComparatorInstance) {
+                seekTimeComparatorInstance.destroy();
+                seekTimeComparatorInstance = null;
+            }
+            console.log("Charts cleared");
+        }
+
+        function resetInputs() {
+            document.getElementById("requests").value = '';
+            document.getElementById("headPosition").value = '';
+            activeAlgorithms.clear();
+            document.getElementById("chartsContainer").innerHTML = "";
+            if (comparisonChartInstance) comparisonChartInstance.destroy();
+        }
+
+        let seekTimeComparatorInstance = null;
+
+
+function updateSeekTimeComparator(results) {
+            if (seekTimeComparatorInstance) seekTimeComparatorInstance.destroy();
+            const ctx = document.getElementById("seekTimeComparator").getContext("2d");
+
+            seekTimeComparatorInstance = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: results.map(r => r.algo),
+                    datasets: [{
+                        data: results.map(r => r.seekTime),
+                        backgroundColor: ["blue", "green", "yellow", "red"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { title: { display: true, text: "Seek Time" } }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

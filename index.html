@@ -5,226 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disk Scheduling Simulator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-100 p-5">
-    <div class="max-w-4xl mx-auto bg-white p-5 shadow-lg rounded-lg">
-        <h1 class="text-4xl font-bold mb-5 text-center">Simulator</h1>
-        
-        <label class="block mb-2">Enter Disk Access Requests (comma-separated):</label>
-        <input id="requests" type="text" class="w-full p-2 border border-gray-300 rounded mb-4">
-    
-        <label class="block mb-2">Enter Initial Head Position:</label>
-        <input id="headPosition" type="number" class="w-full p-2 border border-gray-300 rounded mb-4">
+<body class="bg-black text-gray-900">
 
-        <div class="flex flex-wrap gap-0.5 mb-4 justify-around">
-            <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded">FCFS</button>
-            <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded">SSTF</button>
-            <button onclick="toggleAlgorithm('SCAN')" class="bg-yellow-500 text-white px-4 py-2 rounded">SCAN</button>
-            <button onclick="toggleAlgorithm('C-SCAN')" class="bg-red-500 text-white px-4 py-2 rounded">C-SCAN</button>
-            <button onclick="resetInputs()" class="bg-gray-500 text-white px-4 py-2 rounded">Reset</button>
-            <button onclick="clearMetrics()" class="bg-gray-500 text-white px-4 py-2 rounded">Metrics</button>
-            <button onclick="clearChart()" class="bg-gray-500 text-white px-4 py-2 rounded">Chart</button>
-        </div>
+   <!-- Navbar -->
+   <header class="absolute top-0 left-0 w-full z-10 bg-transparent">
+    <nav class="container mx-auto flex justify-center space-x-12 py-4 mt-10">
+        <a href="#about" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold text-3xl">About Us</a>
+        <a href="#algorithms" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold">Algorithms</a>
+        <a href="#simulator" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold">Simulator</a>
+        <a href="#contact" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold">Contact Us</a>
+    </nav>
+</header>
 
-        <canvas id="comparisonChart" class="mb-4"></canvas>
-        <p class="text-sm text-gray-600 text-center">X-axis: Sequence of disk access requests | Y-axis: Disk track positions</p>
-        <div id="performanceMetrics" class="p-3 bg-gray-200 rounded"></div>
-        <div id="chartsContainer" class="mt-5"></div>
+<!-- Welcome Section with Video Background -->
+<section class="relative h-screen flex flex-col justify-center items-center text-white text-center">
+    <!-- Background Video -->
+    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+        <source src="vdo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay to darken the video for better text readability -->
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+    <!-- Welcome Content -->
+    <div class="relative z-10">
+        <h1 class="text-7xl font-bold font-mono overflow-hidden whitespace-nowrap border-r-4 border-white pr-2" id="typing-text"></h1>
+        <p class="mt-4 text-4xl font-semibold mb-10 text-gray-300">Experience different disk scheduling algorithms in action.</p>
+        <a href="simulator.html" class=" hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-3xl font-bold">Simulator</a>
     </div>
-    <canvas id="seekTimeComparator" class="mb-4"></canvas>
+</section>
 
+
+
+    <!-- About Us Section -->
+<section id="about" class=" mx-auto w-full py-16 text-center bg-black text-white ">
+    <h2 class="text-3xl font-bold mb-6">About Us</h2>
+    <p class="max-w-2xl mx-auto text-xl text-gray-200">
+        We are a team of three students – <strong>Kriti</strong>, <strong>Nitesh</strong>, and <strong>Pranav</strong> – passionate about computer science and problem-solving.  
+        This project is our attempt to simplify disk scheduling algorithms and help students visualize their working.
+    </p>
+</section>
+
+
+    <!-- Algorithms Section -->
+    <section id="algorithms" class="container mx-auto py-16 ">
+        <h2 class="text-3xl font-bold text-center mb-8 text-white">Disk Scheduling Algorithms</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold">FCFS (First Come First Serve)</h3>
+                <p class="mt-2">Requests are processed in the order they arrive.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold">SSTF (Shortest Seek Time First)</h3>
+                <p class="mt-2">Chooses the request closest to the current head position.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold">SCAN (Elevator Algorithm)</h3>
+                <p class="mt-2">Moves in one direction, then reverses at the end.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulator Section -->
+    <!-- <section id="simulator" class=" py-16 ">
+         <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6 text-white">Disk Scheduling Simulator</h2>
+            <form class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+                <label class="block text-left font-medium mb-2">Enter Request Queue (comma-separated):</label>
+                <input type="text" class="w-full px-4 py-2 border rounded-lg mb-4" placeholder="e.g. 98, 183, 37, 122">
+                
+                <label class="block text-left font-medium mb-2">Enter Initial Head Position:</label>
+                <input type="number" class="w-full px-4 py-2 border rounded-lg mb-4" placeholder="e.g. 53">
+
+                <label class="block text-left font-medium mb-2">Select Algorithm:</label>
+                <select class="w-full px-4 py-2 border rounded-lg mb-4">
+                    <option>FCFS</option>
+                    <option>SSTF</option>
+                    <option>SCAN</option>
+                </select>
+
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Run Simulation</button>
+            </form>
+        </div>
+        <a href="simulator.html" class=" hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-3xl font-bold">Simulator</a>
+    
+    </section> -->
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="container mx-auto py-16">
+        <h2 class="text-3xl font-bold text-center mb-6 text-white">Contact Us</h2>
+        <form class="max-w-lg mx-auto bg-gray-500 p-6 rounded-lg shadow-md text-2xl">
+            <label class="block text-left font-medium mb-2">Your Name:</label>
+            <input type="text" class="w-full px-4 py-2 border rounded-lg mb-4 bg-gray-400" placeholder="John Doe">
+            
+            <label class="block text-left font-medium mb-2">Your Email:</label>
+            <input type="email" class="w-full px-4 py-2 border rounded-lg mb-4 bg-gray-400" placeholder="johndoe@example.com">
+            
+            <label class="block text-left font-medium mb-2">Message:</label>
+            <textarea class="w-full px-4 py-2 border rounded-lg mb-4 bg-gray-400" rows="4" placeholder="Your message..."></textarea>
+
+            <button class="w-full bg-black hover:bg-gray-700 text-white py-2 rounded-lg">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-90 text-white text-center py-4 text-lg ">
+        <p>&copy; 2025 Disk Scheduling Simulator. All rights reserved.</p>
+    </footer>
 
     <script>
-        let activeAlgorithms = new Set();
-        let comparisonChartInstance = null;
-
-        function toggleAlgorithm(algo) {
-            if (activeAlgorithms.has(algo)) {
-                activeAlgorithms.delete(algo);
-            } else {
-                activeAlgorithms.add(algo);
+        const text = "Welcome to Disk Scheduling Simulator";
+        let index = 0;
+        function typeEffect() {
+            if (index < text.length) {
+                document.getElementById("typing-text").innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeEffect, 100);
             }
-            runAlgorithms();
         }
-
-        function runAlgorithms() {
-            const requests = document.getElementById("requests").value.split(",").map(Number);
-            const head = parseInt(document.getElementById("headPosition").value);
-
-            if (isNaN(head) || requests.some(isNaN)) {
-                alert("Invalid input! Please enter valid numbers.");
-                return;
-            }
-
-            let results = Array.from(activeAlgorithms).map(algo => diskScheduling(algo, requests, head));
-            updateComparisonChart(results);
-            updateMetrics(results);
-            updateCharts(results);
-            updateSeekTimeComparator(results);
-
-        }
-
-        function diskScheduling(algo, requests, head) {
-            let seekTime = 0;
-            let movements = [head];
-            let sortedRequests = [...requests].sort((a, b) => a - b);
-            let order = [];
-
-            if (algo === 'FCFS') {
-                seekTime = requests.reduce((sum, req, i) => sum + Math.abs(req - (i ? requests[i - 1] : head)), 0);
-                movements.push(...requests);
-                order = [head, ...requests];
-            } else if (algo === 'SSTF') {
-                let remaining = [...requests];
-                let current = head;
-                while (remaining.length) {
-                    let closest = remaining.reduce((prev, curr) => Math.abs(curr - current) < Math.abs(prev - current) ? curr : prev);
-                    seekTime += Math.abs(closest - current);
-                    current = closest;
-                    movements.push(current);
-                    order.push(current);
-                    remaining.splice(remaining.indexOf(closest), 1);
-                }
-            } else if (algo === 'SCAN') {
-                let left = sortedRequests.filter(req => req < head).reverse();
-                let right = sortedRequests.filter(req => req >= head);
-                movements.push(...right, ...left);
-                order = [head, ...right, ...left];
-                seekTime = Math.max(...requests) - Math.min(...requests);
-            } else if (algo === 'C-SCAN') {
-                let left = sortedRequests.filter(req => req < head);
-                let right = sortedRequests.filter(req => req >= head);
-                movements.push(...right, Math.max(...requests), Math.min(...requests), ...left);
-                order = [head, ...right, Math.max(...requests), Math.min(...requests), ...left];
-                seekTime = Math.max(...requests) - head + Math.max(...requests) - Math.min(...requests);
-            }
-
-            return { algo, movements, seekTime, avgSeekTime: seekTime / requests.length, order };
-        }
-
-        function updateComparisonChart(results) {
-            if (comparisonChartInstance) comparisonChartInstance.destroy();
-            const ctx = document.getElementById("comparisonChart").getContext("2d");
-
-            comparisonChartInstance = new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: results.length ? results[0].movements.map((_, i) => i) : [],
-                    datasets: results.map((res, i) => ({
-                        label: res.algo,
-                        data: res.movements,
-                        borderColor: ["blue", "green", "yellow", "red"][i],
-                        fill: false
-                    }))
-                }
-            });
-        }
-
-        function updateMetrics(results) {
-            let metricsHtml = "";
-            results.forEach(res => {
-                metricsHtml += `<p><strong>${res.algo} Execution Order:</strong> ${res.order.join(" → ")}</p>`;
-                metricsHtml += `<p><strong>${res.algo} Total Seek Time:</strong> ${res.seekTime}</p>`;
-                metricsHtml += `<p><strong>${res.algo} Average Seek Time:</strong> ${res.avgSeekTime.toFixed(2)}</p>`;
-                metricsHtml += `<p><strong>${res.algo} System Throughput:</strong> ${(1 / res.avgSeekTime).toFixed(4)} operations per time unit</p>`;
-                metricsHtml += "<hr>";
-            });
-            document.getElementById("performanceMetrics").innerHTML = metricsHtml;
-        }
-
-        function updateCharts(results) {
-            const container = document.getElementById("chartsContainer");
-            container.innerHTML = "";
-            results.forEach(res => {
-                const chartId = `chart-${res.algo}`;
-                const chartDiv = document.createElement("div");
-                chartDiv.innerHTML = `
-                    <canvas id="${chartId}" class="mb-4"></canvas>
-                    <p class="text-center font-bold">Total Seek Time: ${res.seekTime}</p>
-                `;
-                container.appendChild(chartDiv);
-                renderChart(chartId, res.order, res.algo);
-            });
-        }
-
-        function renderChart(chartId, data, label) {
-            new Chart(document.getElementById(chartId), {
-                type: "line",
-                data: {
-                    labels: data.map((_, i) => i),
-                    datasets: [{
-                        label: `${label} Seek Times`,
-                        data: data,
-                        borderColor: getRandomColor(),
-                        borderWidth: 2,
-                        fill: false,
-                    }],
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: { title: { display: true, text: "Requests" } },
-                        y: { title: { display: true, text: "Seek Time (ms)" } },
-                    },
-                },
-            });
-        }
-
-        function getRandomColor() {
-            return "#" + Math.floor(Math.random() * 16777215).toString(16);
-        }
-
-        function clearMetrics() {
-    document.getElementById("performanceMetrics").innerHTML = ""; // Clears the metrics
-}
-function clearChart() {
-            if (comparisonChartInstance) {
-                comparisonChartInstance.destroy();
-                comparisonChartInstance = null;
-            }
-            if (seekTimeComparatorInstance) {
-                seekTimeComparatorInstance.destroy();
-                seekTimeComparatorInstance = null;
-            }
-            console.log("Charts cleared");
-        }
-
-        function resetInputs() {
-            document.getElementById("requests").value = '';
-            document.getElementById("headPosition").value = '';
-            activeAlgorithms.clear();
-            document.getElementById("chartsContainer").innerHTML = "";
-            if (comparisonChartInstance) comparisonChartInstance.destroy();
-        }
-
-        let seekTimeComparatorInstance = null;
-
-
-function updateSeekTimeComparator(results) {
-            if (seekTimeComparatorInstance) seekTimeComparatorInstance.destroy();
-            const ctx = document.getElementById("seekTimeComparator").getContext("2d");
-
-            seekTimeComparatorInstance = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: results.map(r => r.algo),
-                    datasets: [{
-                        data: results.map(r => r.seekTime),
-                        backgroundColor: ["blue", "green", "yellow", "red"]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: { title: { display: true, text: "Seek Time" } }
-                    }
-                }
-            });
-        }
+        window.onload = typeEffect;
 
     </script>
 </body>
