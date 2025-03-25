@@ -7,28 +7,66 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-100 p-5">
-    <div class="max-w-4xl mx-auto bg-white p-5 shadow-lg rounded-lg">
-        <h1 class="text-4xl font-bold mb-5 text-center">Disk Scheduling Simulator</h1>
-        
-        <label class="block mb-2">Enter Disk Access Requests (comma-separated):</label>
-        <input id="requests" type="text" class="w-full p-2 border border-gray-300 rounded mb-4">
-    
-        <label class="block mb-2">Enter Initial Head Position:</label>
-        <input id="headPosition" type="number" class="w-full p-2 border border-gray-300 rounded mb-4">
+<body class="bg-blue-400 p-5">
 
-        <div class="flex flex-wrap gap-2 mb-4 justify-center">
-            <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded">FCFS</button>
+    <!-- Title Section -->
+    <div class="text-center mb-5">
+        <h1 class="text-4xl font-bold">Disk Scheduling Simulator</h1>
+    </div>
+
+    <div class="max-w-9xl mx-auto bg-blue-300 p-5 shadow-lg rounded-lg space-y-5">
+
+        <!-- First Section: Input Form & Individual Chart -->
+        <div class="grid grid-cols-2 gap-5">
+            <div class="bg-white p-5 rounded-lg  h-[400px]">
+                <h2 class="font-semibold mb-2">Enter Disk Requests</h2>
+                <input id="requests" type="text" placeholder="Enter Requests" class="w-full p-2 border rounded mb-2">
+                <input id="headPosition" type="number" placeholder="Enter Initial Head Position" class="w-full p-2 border rounded mb-2">
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded">FCFS</button>
             <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded">SSTF</button>
             <button onclick="toggleAlgorithm('SCAN')" class="bg-yellow-500 text-white px-4 py-2 rounded">SCAN</button>
             <button onclick="toggleAlgorithm('C-SCAN')" class="bg-red-500 text-white px-4 py-2 rounded">C-SCAN</button>
-            <button onclick="resetInputs()" class="bg-gray-500 text-white px-4 py-2 rounded">Reset</button>
+            <button onclick="resetAll()" class="bg-gray-500 text-white px-4 py-2 rounded">Reset</button>
+            </div>
+            </div>
+            <div class="bg-green-200 p-5 rounded-lg  h-[400px] overflow-auto">
+                <h2 class="font-semibold mb-2">Performance Matrix </h2>
+                <!-- <div id="chartsContainer" class="overflow-auto max-h-[550px]"></div> -->
+                <div id="performanceMetrics" ></div>
+            </div>
         </div>
 
-        <canvas id="comparisonChart" class="mb-4"></canvas>
-        <p class="text-sm text-gray-600 text-center">X-axis: Request Sequence | Y-axis: Disk Track Positions</p>
-        <div id="performanceMetrics" class="p-3 bg-gray-200 rounded"></div>
+       <!-- Second Section: Performance Matrix -->
+        
+       <div class="bg-white p-5 rounded-lg overflow-x-auto h-[600px]">
+        <h2 class="font-semibold mb-2">Graph</h2>
+        <div id="chartsContainer" class="flex gap-5 w-max h-[500px]">
+            <canvas id="chartCanvas" ></canvas>
+        </div>
     </div>
+    
+    
+
+
+
+        <!-- Third Section: Combined Graph & Seek Time Graph -->
+        <div class="grid grid-cols-2 gap-5 mb-4">
+            <div class="bg-white p-5 rounded-lg">
+                <h2 class="font-semibold mb-2">Combined Graph</h2>
+                <canvas id="comparisonChart"></canvas>
+            </div>
+            <div class="bg-white p-5 rounded-lg">
+                <h2 class="font-semibold mb-2">Seek Time Graph</h2>
+                <canvas id="seekTimeComparator"></canvas>
+            </div>
+        </div>
+
+       
+
+    </div>
+
+    
 
     <script>
         let activeAlgorithms = new Set();
@@ -51,6 +89,8 @@
             let results = Array.from(activeAlgorithms).map(algo => diskScheduling(algo, requests, head));
             updateComparisonChart(results);
             updateMetrics(results);
+            updateCharts(results);           // Updates individual charts
+            updateSeekTimeComparison(results);
         }
 
         function diskScheduling(algo, requests, head) {
@@ -91,43 +131,69 @@
             return { algo, movements, seekTime, avgSeekTime: seekTime / requests.length, order };
         }
 
-        function updateComparisonChart(results) {
-            if (comparisonChartInstance) comparisonChartInstance.destroy();
-            const ctx = document.getElementById("comparisonChart").getContext("2d");
+        
 
-            comparisonChartInstance = new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: results.length ? results[0].movements.map((_, i) => i) : [],
-                    datasets: results.map((res, i) => ({
-                        label: res.algo,
-                        data: res.movements,
-                        borderColor: ["blue", "green", "yellow", "red"][i],
-                        borderWidth: 3,
-                        fill: false
-                    }))
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: "Requests",
-                                font: { size: 16, weight: 'bold' }
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: "Disk Track Positions",
-                                font: { size: 16, weight: 'bold' }
-                            }
+function updateComparisonChart(results) {
+    const ctx = document.getElementById("comparisonChart").getContext("2d");
+
+    if (!comparisonChartInstance) {
+        // Initialize the chart if it doesn't exist
+        comparisonChartInstance = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: []
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Steps",
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Disk Track Positions",
+                            font: { size: 16, weight: 'bold' }
                         }
                     }
                 }
-            });
-        }
+            }
+        });
+    }
+
+    // Find the maximum number of steps in any algorithm
+    let maxSteps = Math.max(...results.map(res => res.movements.length));
+
+    // Create the X-axis labels dynamically based on maxSteps
+    let labels = Array.from({ length: maxSteps }, (_, i) => i + 1);
+
+    // Clear existing datasets
+    comparisonChartInstance.data.datasets = [];
+
+    // Add datasets based on active algorithms
+    results.forEach((res, i) => {
+        comparisonChartInstance.data.datasets.push({
+            label: res.algo,
+            data: res.movements.concat(new Array(maxSteps - res.movements.length).fill(null)), // Padding with nulls for uniformity
+            borderColor: ["blue", "green", "yellow", "red"][i % 4], // Rotate colors
+            borderWidth: 3,
+            fill: false
+        });
+    });
+
+    // Update the X-axis labels
+    comparisonChartInstance.data.labels = labels;
+
+    comparisonChartInstance.update(); // Refresh the chart
+}
+
+
+
 
         function updateMetrics(results) {
             let metricsHtml = results.map(res => `
@@ -136,16 +202,131 @@
                 <p><strong>${res.algo} Avg. Seek Time:</strong> ${res.avgSeekTime.toFixed(2)}</p>
                 <p><strong>${res.algo} System Throughput:</strong> ${(1 / res.avgSeekTime).toFixed(4)} ops/time unit</p>
                 <hr>
+                <p>-------------------------------------------------------------------------------------------------</p>
+                <hr>
             `).join("");
             document.getElementById("performanceMetrics").innerHTML = metricsHtml;
         }
 
-        function resetInputs() {
-            document.getElementById("requests").value = "";
-            document.getElementById("headPosition").value = "";
-            document.getElementById("performanceMetrics").innerHTML = "";
-            if (comparisonChartInstance) comparisonChartInstance.destroy();
+           
+        
+
+
+
+
+        function updateCharts(results) {
+            const container = document.getElementById("chartsContainer");
+            container.innerHTML = "";
+            results.forEach(res => {
+                const chartId = `chart-${res.algo}`;
+                const chartDiv = document.createElement("div");
+                chartDiv.innerHTML = `
+                    <canvas id="${chartId}" class="mb-4"></canvas>
+                    <p class="text-center font-bold">Total Seek Time: ${res.seekTime}</p>
+                `;
+                container.appendChild(chartDiv);
+                renderChart(chartId, res.order, res.algo);
+            });
         }
+
+        function renderChart(chartId, data, label) {
+    const canvas = document.getElementById(chartId);
+    const ctx = canvas.getContext("2d");
+
+    // Set custom width & height before rendering the chart
+    canvas.width = 800; 
+    canvas.height = 500;
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: data.map((_, i) => i),
+            datasets: [{
+                label: `${label} Seek Times`,
+                data: data,
+                borderColor: getRandomColor(),
+                borderWidth: 5,
+                fill: false,
+            }],
+        },
+        options: {
+            responsive: false, // Disable auto-resizing
+            maintainAspectRatio: false, // Ensure it doesn't shrink
+            scales: {
+                x: { title: { display: true, text: "Requests" } },
+                y: { title: { display: true, text: "Seek Time (ms)" } },
+            },
+        },
+    });
+}
+
+
+        function getRandomColor() {
+            return "#" + Math.floor(Math.random() * 16777215).toString(16);
+        }
+
+        
+
+        let seekTimeComparatorInstance = null;
+
+
+    function updateSeekTimeComparison(results) {
+    const ctx = document.getElementById("seekTimeComparator").getContext("2d");
+    
+    if (window.seekTimeComparatorInstance) {
+        window.seekTimeComparatorInstance.destroy();
+    }
+    
+    window.seekTimeComparatorInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: results.map(res => res.algo),
+            datasets: [{
+                label: "Total Seek Time",
+                data: results.map(res => res.seekTime),
+                backgroundColor: ["blue", "green", "yellow", "red"],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+function resetAll() {
+    // Clear input fields
+    document.getElementById("requests").value = "";
+    document.getElementById("headPosition").value = "";
+    
+    // Clear performance metrics
+    document.getElementById("performanceMetrics").innerHTML = "";
+
+    // Clear active algorithms
+    activeAlgorithms.clear();
+
+    // Clear all dynamically created charts
+    document.getElementById("chartsContainer").innerHTML = "";
+
+    // Destroy comparison chart if it exists
+    if (comparisonChartInstance) {
+        comparisonChartInstance.destroy();
+        comparisonChartInstance = null;
+    }
+
+    // Destroy seek time comparison chart if it exists
+    if (window.seekTimeComparatorInstance) {
+        window.seekTimeComparatorInstance.destroy();
+        window.seekTimeComparatorInstance = null;
+    }
+
+    console.log("All inputs, graphs, and performance metrics have been reset.");
+}
+
+
     </script>
 </body>
 </html>
