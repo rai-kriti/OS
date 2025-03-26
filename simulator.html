@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-blue-400 p-5">
+<body class="bg-gray-100 p-5">
 
     <!-- Title Section -->
     <div class="text-center mb-5">
@@ -20,14 +20,14 @@
         <div class="grid grid-cols-2 gap-5">
             <div class="bg-white p-5 rounded-lg  h-[400px]">
                 <h2 class="font-semibold mb-2">Enter Disk Requests</h2>
-                <input id="requests" type="text" placeholder="Enter Requests" class="w-full p-2 border rounded mb-2">
-                <input id="headPosition" type="number" placeholder="Enter Initial Head Position" class="w-full p-2 border rounded mb-2">
+                <input id="requests" type="text" placeholder="Enter Requests" class="w-full p-2 border rounded mb-2 transition duration-300 focus:border-blue-500 hover:border-gray-500">
+                <input id="headPosition" type="number" placeholder="Enter Initial Head Position" class="w-full p-2 border rounded mb-2 transition duration-300 focus:border-blue-500 hover:border-gray-500">
                 <div class="flex flex-wrap gap-2 mt-3">
-                    <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded">FCFS</button>
-            <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded">SSTF</button>
-            <button onclick="toggleAlgorithm('SCAN')" class="bg-yellow-500 text-white px-4 py-2 rounded">SCAN</button>
-            <button onclick="toggleAlgorithm('C-SCAN')" class="bg-red-500 text-white px-4 py-2 rounded">C-SCAN</button>
-            <button onclick="resetAll()" class="bg-gray-500 text-white px-4 py-2 rounded">Reset</button>
+                    <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-blue-600 active:scale-95">FCFS</button>
+            <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-green-600 active:scale-95">SSTF</button>
+            <button onclick="toggleAlgorithm('SCAN')" class="bg-yellow-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-yellow-600 active:scale-95">SCAN</button>
+            <button onclick="toggleAlgorithm('C-SCAN')" class="bg-red-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-red-600 active:scale-95">C-SCAN</button>
+            <button onclick="resetAll()" class="bg-gray-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-gray-700 active:scale-95">Reset</button>
             </div>
             </div>
             <div class="bg-green-200 p-5 rounded-lg  h-[400px] overflow-auto">
@@ -39,8 +39,8 @@
 
        <!-- Second Section: Performance Matrix -->
         
-       <div class="bg-white p-5 rounded-lg overflow-x-auto h-[600px]">
-        <h2 class="font-semibold mb-2">Graph</h2>
+       <div class="bg-white p-5 rounded-lg overflow-x-auto h-[600px] border border-gray-300 shadow-lg">
+        <h2 class="font-semibold mb-2 text-center text-blue-700">Graph</h2>
         <div id="chartsContainer" class="flex gap-5 w-max h-[500px]">
             <canvas id="chartCanvas" ></canvas>
         </div>
@@ -52,15 +52,15 @@
 
         <!-- Third Section: Combined Graph & Seek Time Graph -->
         <div class="grid grid-cols-2 gap-5 mb-4">
-            <div class="bg-white p-5 rounded-lg">
-                <h2 class="font-semibold mb-2">Combined Graph</h2>
+            <div class="bg-white p-5 rounded-lg border border-gray-300 shadow-lg text-center">
+                <h2 class="font-semibold mb-2 text-blue-700">Combined Graph</h2>
                 <canvas id="comparisonChart"></canvas>
             </div>
-            <div class="bg-white p-5 rounded-lg">
-                <h2 class="font-semibold mb-2">Seek Time Graph</h2>
+            <div class="bg-white p-5 rounded-lg border border-gray-300 shadow-lg text-center">
+                <h2 class="font-semibold mb-2 text-green-700">Seek Time Graph</h2>
                 <canvas id="seekTimeComparator"></canvas>
             </div>
-        </div>
+        </div>    
 
        
 
