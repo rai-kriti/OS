@@ -7,8 +7,8 @@ Overview
  The Advanced Disk Scheduling Simulator is a web-based tool designed to visualize and compare different disk scheduling algorithms. It helps users understand how 
  disk scheduling impacts system performance by simulating disk head movements, response times, and seek times in real-time.
 
-Features
--->Supports Multiple Disk Scheduling Algorithms
+-->Features
+ Supports Multiple Disk Scheduling Algorithms
  First Come First Serve (FCFS) – Requests are processed in the order they arrive.
  Shortest Seek Time First (SSTF) – The request closest to the current head position is served first.
  SCAN (Elevator Algorithm) – Moves in one direction, then reverses at the end.
