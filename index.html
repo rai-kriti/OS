@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disk Scheduling Simulator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {},
+            }
+        };
+    </script>
+    
 </head>
 
 
@@ -13,11 +21,11 @@
    <!-- Navbar -->
    <header class="absolute top-0 left-0 w-full z-10 bg-transparent">
     <nav class="container mx-auto flex justify-center space-x-12 py-4 mt-10">
-        <a href="#about" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold text-3xl">About Us</a>
-        <a href="#algorithms" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold">Algorithms</a>
-        <a href="simulator.html" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold">Simulator</a>
-        <a href="#contact" class="hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-lg font-bold">Contact Us</a>
-    </nav>
+        <a href="#about" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">About Us</a>
+        <a href="#algorithms" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">Algorithms</a>
+        <a href="simulator.html" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">Simulator</a>
+        <a href="#contact" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">Contact Us</a>
+            </nav>
 </header>
 
 <!-- Welcome Section with Video Background -->
@@ -35,7 +43,7 @@
     <div class="relative z-10">
         <h1 class="text-7xl font-bold font-mono overflow-hidden whitespace-nowrap border-r-4 border-white pr-2" id="typing-text"></h1>
         <p class="mt-4 text-4xl font-semibold mb-10 text-gray-300">Experience different disk scheduling algorithms in action.</p>
-        <a href="simulator.html" class=" hover:text-gray-300 px-8 py-3 border border-white rounded-full text-white text-3xl font-bold" id="simulator-link">Simulator</a>
+        <a href="simulator.html" class="px-8 py-3 border border-white rounded-full text-white text-3xl font-bold transition-transform transform duration-300 hover:scale-110 hover:bg-white hover:text-black" id="simulator-link">Simulator</a>
     </div>
 </section>
 
@@ -55,19 +63,19 @@
     <section id="algorithms" class="container mx-auto py-16 ">
         <h2 class="text-3xl font-bold text-center mb-8 text-white text-gray-900">Disk Scheduling Algorithms</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'">
+            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
                 <h3 class="text-xl font-semibold">FCFS (First Come First Serve)</h3>
                 <p class="mt-2">Requests are processed in the order they arrive.</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-12" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'">
+            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
                 <h3 class="text-xl font-semibold">SSTF (Shortest Seek Time First)</h3>
                 <p class="mt-2">Chooses the request closest to the current head position.</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 mt-2" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'">
+            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
                 <h3 class="text-xl font-semibold">SCAN (Elevator Algorithm)</h3>
                 <p class="mt-2">Moves in one direction, then reverses at the end.</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-12 mt-2" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'">
+            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
                 <h3 class="text-xl font-semibold">C-SCAN (Circular Elevator Algorithm)</h3>
                 <p class="mt-2">Moves in one direction, then wraps around to the start.</p>
             </div>
