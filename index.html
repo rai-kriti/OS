@@ -8,139 +8,422 @@
     <script>
         tailwind.config = {
             theme: {
-                extend: {},
+                extend: {
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' }
+                        }
+                    },
+                    animation: {
+                        blink: 'blink 0.8s infinite'
+                    }
+                }
             }
-        };
+        }
     </script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
-
 <body class="bg-black text-gray-900">
+    <!-- Navbar -->
+    <header class="absolute top-0 left-0 w-full z-10 bg-transparent">
+        <nav class="container mx-auto flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-12 py-4 mt-4 sm:mt-10 px-4">
+            <a href="#about" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">About Us</a>
+            <a href="#algorithms" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Algorithms</a>
+            <a href="simulator.html" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Simulator</a>
+            <a href="#contact" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Contact Us</a>
+        </nav>
+    </header>
 
-   <!-- Navbar -->
-   <header class="absolute top-0 left-0 w-full z-10 bg-transparent">
-    <nav class="container mx-auto flex justify-center space-x-12 py-4 mt-10">
-        <a href="#about" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">About Us</a>
-        <a href="#algorithms" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">Algorithms</a>
-        <a href="simulator.html" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">Simulator</a>
-        <a href="#contact" class="px-8 py-3 border border-white rounded-full text-white text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800">Contact Us</a>
-            </nav>
-</header>
+    <!-- Welcome Section with Video Background -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Video -->
+        <video autoplay muted loop class="absolute w-full h-full object-cover">
+            <source src="vdo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
 
-<!-- Welcome Section with Video Background -->
-<section class="relative h-screen flex flex-col justify-center items-center text-white text-center">
-    <!-- Background Video -->
-    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
-        <source src="vdo.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    <!-- Overlay to darken the video for better text readability -->
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-
-    <!-- Welcome Content -->
-    <div class="relative z-10">
-        <h1 class="text-7xl font-bold font-mono overflow-hidden whitespace-nowrap border-r-4 border-white pr-2" id="typing-text"></h1>
-        <p class="mt-4 text-4xl font-semibold mb-10 text-gray-300">Experience different disk scheduling algorithms in action.</p>
-        <a href="simulator.html" class="px-8 py-3 border border-white rounded-full text-white text-3xl font-bold transition-transform transform duration-300 hover:scale-110 hover:bg-white hover:text-black" id="simulator-link">Simulator</a>
-    </div>
-</section>
-
-
-
-    <!-- About Us Section -->
-<section id="about" class=" mx-auto w-full py-16 text-center bg-black text-white ">
-    <h2 class="text-3xl font-bold mb-6">About Us</h2>
-    <p class="max-w-2xl mx-auto text-xl text-gray-200">
-        We are a team of three students from – <strong>Kriti</strong>, <strong>Nitesh</strong>, and <strong>Pranav</strong> – passionate about computer science and problem-solving.  
-        This project is our attempt to simplify disk scheduling algorithms and help students visualize their working.
-    </p>
-</section>
-
+        <!-- Overlay to darken the video for better text readability -->
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        
+        <!-- Welcome Content -->
+        <div class="relative z-10 px-4 text-center">
+            <div class="flex items-center justify-center">
+                <h1 class="text-3xl sm:text-5xl md:text-7xl font-bold font-mono text-white" id="text"></h1>
+                <span class="ml-1 w-[3px] sm:w-[4px] md:w-[5px] h-[40px] sm:h-[60px] md:h-[80px] bg-white opacity-100 animate-blink"></span>
+            </div>
+            <p class="mt-4 text-xl sm:text-3xl md:text-4xl font-semibold mb-6 sm:mb-10 text-gray-300">Experience different disk scheduling algorithms in action.</p>
+            <a href="simulator.html" class="inline-block px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-xl sm:text-2xl md:text-3xl font-bold transition-transform transform duration-300 hover:scale-110 hover:bg-white hover:text-black" id="simulator-link">Simulator</a>
+        </div>
+    </section>
 
     <!-- Algorithms Section -->
-    <section id="algorithms" class="container mx-auto py-16 ">
-        <h2 class="text-3xl font-bold text-center mb-8 text-white text-gray-900">Disk Scheduling Algorithms</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
-                <h3 class="text-xl font-semibold">FCFS (First Come First Serve)</h3>
-                <p class="mt-2">Requests are processed in the order they arrive.</p>
+    <section id="algorithms" class="container mx-auto py-8 sm:py-16 px-4">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-white-300 leading-relaxed font-mono" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">Disk Scheduling Algorithms</h2>
+        <div class="flex flex-col space-y-6 sm:space-y-8 max-w-4xl mx-auto">
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" data-algorithm>
+                <div class="bg-gradient-to-r from-blue-900 to-gray-800 p-4 sm:p-6 rounded-t-xl cursor-pointer" onclick="toggleAlgorithm(this.parentElement)">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center">
+                        FCFS (First Come First Serve)
+                        <i class="fas fa-chevron-down ml-auto transition-transform duration-300"></i>
+                    </h3>
+                    <p class="mt-2 text-sm sm:text-base text-gray-300">Imagine you are standing in a queue at a grocery store. The cashier serves the customers one by one in the order they arrived. The first person who comes to the queue gets served first, the second person goes next, and so on.</p>
+                </div>
+                <div class="hidden transition-all duration-300 ease-out transform origin-top max-h-0 opacity-0" id="algorithm-content-1">
+                    <div class="prose prose-sm sm:prose-base lg:prose-lg max-w-none bg-gradient-to-br from-gray-50 to-white rounded-b-xl p-4 sm:p-8 shadow-inner">
+                        <p class="text-gray-700 leading-relaxed mb-8">Imagine you are standing in a queue at a grocery store. The cashier serves the customers one by one in the order they arrived. The first person who comes to the queue gets served first, the second person goes next, and so on.</p>
+
+                        <p class="text-gray-700 leading-relaxed mb-8">This is exactly how the <strong class="text-blue-600 font-semibold">First Come, First Serve (FCFS)</strong> scheduling algorithm works in an operating system.</p>
+
+                        <div class="bg-blue-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-blue-800 mb-4">How it Works:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed">Processes (or tasks) arrive and are lined up in the order they come.</li>
+                                <li class="leading-relaxed">The processor picks the first process in the queue and executes it completely.</li>
+                                <li class="leading-relaxed">Once it's done, the next process in line gets executed, and this continues until all processes are finished.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-indigo-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-indigo-800 mb-4">Key Points:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Non-preemptive:</span> Once a process starts, it runs until it finishes (no interruptions).</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Simple and fair:</span> Whoever comes first gets served first.</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Can cause waiting time issues:</span> If a long process comes first, the smaller ones behind it have to wait (called the <em class="text-indigo-600">convoy effect</em>).</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4">Example:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
+                                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
+                                        <tr>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Process</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Arrival Time</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Burst Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">P1</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">0 ms</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">5 ms</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">P2</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1 ms</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3 ms</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">P3</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2 ms</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">8 ms</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
-                <h3 class="text-xl font-semibold">SSTF (Shortest Seek Time First)</h3>
-                <p class="mt-2">Chooses the request closest to the current head position.</p>
+
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" data-algorithm>
+                <div class="bg-gradient-to-r from-blue-900 to-gray-800 p-4 sm:p-6 rounded-t-xl cursor-pointer" onclick="toggleAlgorithm(this.parentElement)">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center">
+                        SSTF (Shortest Seek Time First)
+                        <i class="fas fa-chevron-down ml-auto transition-transform duration-300"></i>
+                    </h3>
+                    <p class="mt-2 text-sm sm:text-base text-gray-300">Imagine you are standing in the middle of a long hallway with multiple rooms on both sides. Your job is to deliver packages to these rooms, but you can choose the order in which you deliver them. Naturally, you would deliver to the closest room first to minimize walking distance, right?</p>
+                </div>
+                <div class="hidden transition-all duration-300 ease-out transform origin-top max-h-0 opacity-0" id="algorithm-content-2">
+                    <div class="prose prose-sm sm:prose-base lg:prose-lg max-w-none bg-gradient-to-br from-gray-50 to-white rounded-b-xl p-4 sm:p-8 shadow-inner">
+                        <p class="text-gray-700 leading-relaxed mb-8">In SSTF, the disk head moves to the closest track in the queue, minimizing seek time. This improves overall system performance but can lead to starvation of some requests.</p>
+
+                        <div class="bg-blue-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-blue-800 mb-4">How it Works:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed">The algorithm looks at all pending requests in the queue.</li>
+                                <li class="leading-relaxed">It selects the request closest to the current head position.</li>
+                                <li class="leading-relaxed">After servicing that request, it again looks for the next closest request.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-indigo-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-indigo-800 mb-4">Key Points:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Better Performance:</span> Reduces average seek time compared to FCFS.</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Potential Starvation:</span> Requests far from the head might wait indefinitely.</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Dynamic Selection:</span> Next request is chosen based on proximity, not arrival time.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4">Example:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
+                                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
+                                        <tr>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Track Position</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Request Order</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Seek Distance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">55</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">15</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">58</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">60</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
-                <h3 class="text-xl font-semibold">SCAN (Elevator Algorithm)</h3>
-                <p class="mt-2">Moves in one direction, then reverses at the end.</p>
+
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" data-algorithm>
+                <div class="bg-gradient-to-r from-blue-900 to-gray-800 p-4 sm:p-6 rounded-t-xl cursor-pointer" onclick="toggleAlgorithm(this.parentElement)">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center">
+                        SCAN (Elevator Algorithm)
+                        <i class="fas fa-chevron-down ml-auto transition-transform duration-300"></i>
+                    </h3>
+                    <p class="mt-2 text-sm sm:text-base text-gray-300">Imagine you are standing in a long hallway with multiple rooms on both sides. Your job is to deliver packages to these rooms, but you can only move in one direction at a time. You start at one end, deliver packages to the rooms, and then reverse direction to deliver the remaining packages.</p>
+                </div>
+                <div class="hidden transition-all duration-300 ease-out transform origin-top max-h-0 opacity-0" id="algorithm-content-3">
+                    <div class="prose prose-sm sm:prose-base lg:prose-lg max-w-none bg-gradient-to-br from-gray-50 to-white rounded-b-xl p-4 sm:p-8 shadow-inner">
+                        <p class="text-gray-700 leading-relaxed mb-8">The SCAN algorithm, also known as the elevator algorithm, moves the disk head back and forth across the disk surface, servicing requests in each direction.</p>
+
+                        <div class="bg-blue-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-blue-800 mb-4">How it Works:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed">Starts at one end of the disk and moves toward the other end.</li>
+                                <li class="leading-relaxed">Services all requests in its path while moving in one direction.</li>
+                                <li class="leading-relaxed">When it reaches the other end, it reverses direction and repeats.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-indigo-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-indigo-800 mb-4">Key Points:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Bidirectional Movement:</span> Moves back and forth across the disk.</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Fair Distribution:</span> Prevents starvation by serving requests in both directions.</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Predictable Pattern:</span> Like an elevator, it follows a consistent pattern of movement.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4">Example:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
+                                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
+                                        <tr>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Track Position</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Direction</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Service Order</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">30</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">50</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">20</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">←</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md w-2/3 ml-16 transition-transform transform duration-300 hover:scale-105 hover:shadow-xl relative z-10">
-                <h3 class="text-xl font-semibold">C-SCAN (Circular Elevator Algorithm)</h3>
-                <p class="mt-2">Moves in one direction, then wraps around to the start.</p>
+
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" data-algorithm>
+                <div class="bg-gradient-to-r from-blue-900 to-gray-800 p-4 sm:p-6 rounded-t-xl cursor-pointer" onclick="toggleAlgorithm(this.parentElement)">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center">
+                        C-SCAN (Circular Elevator Algorithm)
+                        <i class="fas fa-chevron-down ml-auto transition-transform duration-300"></i>
+                    </h3>
+                    <p class="mt-2 text-sm sm:text-base text-gray-300">Imagine you are a bus driver following a fixed route. You start picking up passengers from one end of the city and move towards the other end, stopping at all bus stops along the way. Once you reach the last stop, instead of turning back and picking up passengers on the way back, you go straight to the first stop and start over.</p>
+                </div>
+                <div class="hidden transition-all duration-300 ease-out transform origin-top max-h-0 opacity-0" id="algorithm-content-4">
+                    <div class="prose prose-sm sm:prose-base lg:prose-lg max-w-none bg-gradient-to-br from-gray-50 to-white rounded-b-xl p-4 sm:p-8 shadow-inner">
+                        <p class="text-gray-700 leading-relaxed mb-8">C-SCAN (Circular SCAN) is a variant of the SCAN algorithm that provides more uniform waiting time by treating the disk as a circular list.</p>
+
+                        <div class="bg-blue-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-blue-800 mb-4">How it Works:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed">Moves from one end to the other, servicing requests along the way.</li>
+                                <li class="leading-relaxed">When reaching the end, jumps back to the beginning.</li>
+                                <li class="leading-relaxed">Only services requests in one direction (usually toward larger track numbers).</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-indigo-50 rounded-lg p-6 mb-8">
+                            <h4 class="text-xl font-bold text-indigo-800 mb-4">Key Points:</h4>
+                            <ul class="list-disc pl-6 space-y-3 text-gray-700">
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Uniform Waiting Time:</span> Provides more consistent service than SCAN.</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">One-Way Service:</span> Only services requests while moving in one direction.</li>
+                                <li class="leading-relaxed"><span class="font-semibold text-indigo-700">Quick Return:</span> Fast return to start without servicing requests.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4">Example:</h4>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
+                                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
+                                        <tr>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Track Position</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Movement</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Service Order</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">40</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">90</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">10</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">↩</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Simulator Section -->
-   
-         <!-- <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-6 text-white">Disk Scheduling Simulator</h2>
-            <form class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
-                <label class="block text-left font-medium mb-2">Enter Request Queue (comma-separated):</label>
-                <input type="text" class="w-full px-4 py-2 border rounded-lg mb-4" placeholder="e.g. 98, 183, 37, 122">
-                
-                <label class="block text-left font-medium mb-2">Enter Initial Head Position:</label>
-                <input type="number" class="w-full px-4 py-2 border rounded-lg mb-4" placeholder="e.g. 53">
+    <script>
+    function toggleAlgorithm(element) {
+        const content = element.querySelector('[id^="algorithm-content"]');
+        const arrow = element.querySelector('.fa-chevron-down');
+        const allContents = document.querySelectorAll('[id^="algorithm-content"]');
+        const allArrows = document.querySelectorAll('.fa-chevron-down');
+        
+        // Close all other algorithms
+        allContents.forEach(item => {
+            if (item !== content) {
+                item.classList.add('hidden');
+                item.classList.remove('opacity-100', 'max-h-[2000px]');
+                item.classList.add('opacity-0', 'max-h-0');
+            }
+        });
+        
+        allArrows.forEach(item => {
+            if (item !== arrow) {
+                item.classList.remove('rotate-180');
+            }
+        });
 
-                <label class="block text-left font-medium mb-2">Select Algorithm:</label>
-                <select class="w-full px-4 py-2 border rounded-lg mb-4">
-                    <option>FCFS</option>
-                    <option>SSTF</option>
-                    <option>SCAN</option>
-                </select>
-
-                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Run Simulation</button>
-            </form>
-        </div> 
-       
-    
-    </section>  -->
-
-    <!-- Contact Us Section -->
-    <section id="contact" class="container mx-auto py-16">
-        <h2 class="text-3xl font-bold text-center mb-6 text-white">Contact Us</h2>
-        <form class="max-w-lg mx-auto bg-gray-500 p-6 rounded-lg shadow-md text-2xl">
-            <label class="block text-left font-medium mb-2">Your Name:</label>
-            <input type="text" class="w-full px-4 py-2 border rounded-lg mb-4 bg-gray-400" placeholder="John Doe">
-            
-            <label class="block text-left font-medium mb-2">Your Email:</label>
-            <input type="email" class="w-full px-4 py-2 border rounded-lg mb-4 bg-gray-400" placeholder="johndoe@example.com">
-            
-            <label class="block text-left font-medium mb-2">Message:</label>
-            <textarea class="w-full px-4 py-2 border rounded-lg mb-4 bg-gray-400" rows="4" placeholder="Your message..."></textarea>
-
-            <button class="w-full bg-black hover:bg-gray-700 text-white py-2 rounded-lg">Send Message</button>
-        </form>
-    </section>
+        // Toggle current algorithm
+        if (content.classList.contains('hidden')) {
+            content.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('opacity-0', 'max-h-0');
+                content.classList.add('opacity-100', 'max-h-[2000px]');
+                arrow.classList.add('rotate-180');
+            }, 10);
+        } else {
+            content.classList.remove('opacity-100', 'max-h-[2000px]');
+            content.classList.add('opacity-0', 'max-h-0');
+            arrow.classList.remove('rotate-180');
+            setTimeout(() => {
+                content.classList.add('hidden');
+            }, 300);
+        }
+    }
+    </script>
 
     <!-- Footer -->
-    <footer class="bg-black bg-opacity-90 text-white text-center py-4 text-lg ">
-        <p>&copy; 2025 Disk Scheduling Simulator. All rights reserved.</p>
-    </footer>
+    <footer class="bg-gradient-to-b from-gray-900 to-black text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-8 md:space-y-0">
+                <!-- About Section -->
+                <section id="about" class="w-full md:w-1/2 mb-16">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-white-200 border-b-2 border-blue-500 pb-2 inline-block">About Us</h2>
+                    <p class="text-base sm:text-xl text-gray-300 leading-relaxed">
+                        We are a team of three students – <strong class="text-blue-400">Kriti</strong>, <strong class="text-blue-400">Nitesh</strong>, and <strong class="text-blue-400">Pranav</strong> – passionate about computer science and problem-solving.  
+                        This project is our attempt to simplify disk scheduling algorithms and help students visualize their working.
+                    </p>
+                </section>
 
+                <!-- Contact Section -->
+                <section id="contact" class="w-full md:w-1/3">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-white-200 border-b-2 border-blue-500 pb-2 inline-block">Contact Us</h2>
+                    <div class="space-y-4">
+                        <a href="mailto:nitesh321@gmail.com" target="_blank" class="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fas fa-envelope mr-3 text-blue-500"></i>Email
+                        </a>
+                        <a href="https://twitter.com/nitesh321" target="_blank" class="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fab fa-twitter mr-3 text-blue-500"></i>Twitter
+                        </a>
+                        <a href="https://instagram.com/os" target="_blank" class="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fab fa-instagram mr-3 text-blue-500"></i>Instagram
+                        </a>
+                        <a href="https://www.linkedin.com/in/pranavrai18" target="_blank" class="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fab fa-linkedin mr-3 text-blue-500"></i>LinkedIn
+                        </a>
+                        <a href="https://github.com/rai-kriti" target="_blank" class="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-300">
+                            <i class="fab fa-github mr-3 text-blue-500"></i>GitHub
+                        </a>
+                    </div>
+                </section>
+            </div>
+            <div class="mt-8 sm:mt-12 pt-4 border-t border-gray-800 text-center">
+                <p class="text-sm sm:text-base text-gray-400">&copy; 2025 Disk Scheduling Simulator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
     <script>
         const text = "Welcome to Disk Scheduling Simulator";
         let index = 0;
-        function typeEffect() {
+        
+        function typeLetter() {
             if (index < text.length) {
-                document.getElementById("typing-text").innerHTML += text.charAt(index);
+                const currentText = document.getElementById("text").innerHTML;
+                document.getElementById("text").innerHTML = currentText + text.charAt(index);
                 index++;
-                setTimeout(typeEffect, 100);
+                // Randomize the typing speed slightly for a more natural effect
+                const typingSpeed = Math.random() * 50 + 75; // Random speed between 75ms and 125ms
+                setTimeout(typeLetter, typingSpeed);
             }
         }
-        window.onload = typeEffect;
-
+        
+        // Start typing after a short delay to let the cursor blink a few times
+        window.onload = () => setTimeout(typeLetter, 1200);
     </script>
 </body>
 </html>
