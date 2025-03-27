@@ -123,6 +123,8 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <br>
+                                <p><strong>Execution Order:</strong> P1 → P2 → P3 (since P1 arrived first, it gets executed first and then other processes).</p>
                             </div>
                         </div>
                     </div>
@@ -159,36 +161,33 @@
                             </ul>
                         </div>
 
-                        <div class="bg-gray-50 rounded-lg p-6">
-                            <h4 class="text-xl font-bold text-gray-800 mb-4">Example:</h4>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
-                                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
-                                        <tr>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Track Position</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Request Order</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Seek Distance</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200">
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">55</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">15</td>
-                                        </tr>
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">58</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
-                                        </tr>
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">60</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="bg-gray-50 rounded-lg p-6 shadow-md">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Example:</h4>
+                            
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                Let’s say the disk head is at position <strong class="text-blue-600">50</strong>, and we have requests at these positions:
+                            </p>
+
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                <strong class="text-blue-600">Requests:</strong> 20, 45, 65, 10, 90
+                            </p>
+
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                <strong class="text-blue-600">Execution Order (SSTF chooses the closest first):</strong>
+                            </p>
+
+                            <ol class="list-decimal pl-6 space-y-2 text-gray-700">
+                                <li>Start at <strong class="text-blue-600">50</strong></li>
+                                <li>Move to <strong class="text-blue-600">45</strong> (nearest)</li>
+                                <li>Move to <strong class="text-blue-600">20</strong> (next nearest)</li>
+                                <li>Move to <strong class="text-blue-600">10</strong></li>
+                                <li>Move to <strong class="text-blue-600">65</strong></li>
+                                <li>Move to <strong class="text-blue-600">90</strong></li>
+                            </ol>
+
+                            <p class="text-gray-700 leading-relaxed mt-4">
+                                Instead of blindly serving in the arrival order, SSTF intelligently reduces movement to speed things up! <span class="text-blue-600 font-bold"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -224,36 +223,34 @@
                             </ul>
                         </div>
 
-                        <div class="bg-gray-50 rounded-lg p-6">
-                            <h4 class="text-xl font-bold text-gray-800 mb-4">Example:</h4>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
-                                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
-                                        <tr>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Track Position</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Direction</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Service Order</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200">
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">30</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1</td>
-                                        </tr>
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">50</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
-                                        </tr>
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">20</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">←</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="bg-gray-50 rounded-lg p-6 shadow-md">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Example:</h4>
+                            
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                Let’s say the disk head is at position <strong class="text-blue-600">50</strong>, and we have requests at these positions:
+                            </p>
+                            
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                <strong class="text-blue-600">Requests:</strong> 20, 45, 65, 10, 90
+                            </p>
+                            
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                <strong class="text-blue-600">Execution Order (SCAN moves in one direction, then reverses):</strong>
+                            </p>
+                            
+                            <ol class="list-decimal pl-6 space-y-2 text-gray-700">
+                                <li>Start at <strong class="text-blue-600">50</strong></li>
+                                <li>Move to <strong class="text-blue-600">45</strong> (nearest in the same direction)</li>
+                                <li>Move to <strong class="text-blue-600">20</strong></li>
+                                <li>Move to <strong class="text-blue-600">10</strong> (edge of movement)</li>
+                                <li><strong class="text-blue-600">Reverse direction</strong></li>
+                                <li>Move to <strong class="text-blue-600">65</strong></li>
+                                <li>Move to <strong class="text-blue-600">90</strong></li>
+                            </ol>
+                            
+                            <p class="text-gray-700 leading-relaxed mt-4">
+                                SCAN works like an elevator, moving in one direction until the last request, then reversing to serve remaining requests in the opposite direction! <span class="text-blue-600 font-bold"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -289,36 +286,33 @@
                             </ul>
                         </div>
 
-                        <div class="bg-gray-50 rounded-lg p-6">
-                            <h4 class="text-xl font-bold text-gray-800 mb-4">Example:</h4>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
-                                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600">
-                                        <tr>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Track Position</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Movement</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Service Order</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200">
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">40</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1</td>
-                                        </tr>
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">90</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">→</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2</td>
-                                        </tr>
-                                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">10</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">↩</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">3</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="bg-gray-50 rounded-lg p-6 shadow-md">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Example:</h4>
+                            
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                Let’s say the disk head is at <strong class="text-blue-600">50</strong>, and requests are at these positions:
+                            </p>
+                            
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                <strong class="text-blue-600">Requests:</strong> 20, 35, 75, 85, 95
+                            </p>
+                            
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                <strong class="text-blue-600">Execution Order (C-SCAN moves one way, resets, and continues):</strong>
+                            </p>
+                            
+                            <ol class="list-decimal pl-6 space-y-2 text-gray-700">
+                                <li>Start at <strong class="text-blue-600">50</strong></li>
+                                <li>Move to <strong class="text-blue-600">75</strong></li>
+                                <li>Move to <strong class="text-blue-600">85</strong></li>
+                                <li>Move to <strong class="text-blue-600">95</strong> (last request in this direction)</li>
+                                <li><strong class="text-blue-600">Jump back</strong> to the lowest request (<strong class="text-blue-600">20</strong>)</li>
+                                <li>Move to <strong class="text-blue-600">35</strong></li>
+                            </ol>
+                            
+                            <p class="text-gray-700 leading-relaxed mt-4">
+                                Instead of going back and forth like an elevator (SCAN), C-SCAN <strong class="text-blue-600">always moves in one direction and jumps back to start again</strong>.
+                            </p>
                         </div>
                     </div>
                 </div>
