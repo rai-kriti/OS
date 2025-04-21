@@ -108,17 +108,20 @@
                 movements.push(...requests);
                 order = [head, ...requests];
                 seekTime = requests.reduce((sum, req, i) => sum + Math.abs(req - (i ? requests[i - 1] : head)), 0);
-            } else if (algo === 'SSTF') {
-                let remaining = [...requests];
-                let current = head;
-                while (remaining.length) {
-                    let closest = remaining.reduce((prev, curr) => Math.abs(curr - current) < Math.abs(prev - current) ? curr : prev);
-                    seekTime += Math.abs(closest - current);
-                    current = closest;
-                    movements.push(current);
-                    order.push(current);
-                    remaining.splice(remaining.indexOf(closest), 1);
-                }
+            }  else if (algo === 'SSTF') {
+    let remaining = [...requests];
+    let current = head;
+    order = [head]; 
+    while (remaining.length) {
+        let closest = remaining.reduce((prev, curr) =>
+            Math.abs(curr - current) < Math.abs(prev - current) ? curr : prev
+        );
+        seekTime += Math.abs(closest - current);
+        current = closest;
+        movements.push(current);
+        order.push(current);
+        remaining.splice(remaining.indexOf(closest), 1);
+    }
             } else if (algo === 'SCAN') {
                 let left = sortedRequests.filter(req => req < head).reverse();
                 let right = sortedRequests.filter(req => req >= head);
@@ -175,7 +178,7 @@ function updateComparisonChart(results) {
     let maxSteps = Math.max(...results.map(res => res.movements.length));
 
     // Create the X-axis labels dynamically based on maxSteps
-    let labels = Array.from({ length: maxSteps }, (_, i) => i + 1);
+    let labels = Array.from({ length: maxSteps }, (_, i) => i );
 
     // Clear existing datasets
     comparisonChartInstance.data.datasets = [];
