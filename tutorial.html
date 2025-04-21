@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial - Disk Scheduling Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' }
+                        }
+                    },
+                    animation: {
+                        blink: 'blink 0.8s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="bg-black text-gray-900">
+    <!-- Navbar -->
+    <header class="w-full z-10 bg-transparent">
+        <nav class="container mx-auto flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-12 py-4 mt-4 sm:mt-10 px-4">
+            <a href="index.html#about" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">About Us</a>
+            <a href="index.html#algorithms" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Algorithms</a>
+            <a href="simulator.html" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Simulator</a>
+            <a href="index.html#contact" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Contact Us</a>
+            <a href="tutorial.html" class="px-6 sm:px-8 py-2 sm:py-3 bg-white text-black border border-white rounded-full text-base sm:text-lg font-bold transition duration-300 hover:bg-transparent hover:text-white text-center">Tutorial</a>
+        </nav>
+    </header>
+
+    <main class="container mx-auto py-8 sm:py-16 px-4">
+        <h1 class="text-4xl sm:text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-l from-blue-100 to-white leading-relaxed font-mono">How to Use This Website</h1>
+        
+        <!-- Welcome and Purpose -->
+        <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Welcome to the Disk Scheduling Simulator! 👋</h2>
+            <p class="text-gray-700 mb-4">This website helps you understand how different disk scheduling algorithms work in operating systems. Whether you're a student, teacher, or just curious about computer science, we've made it easy to learn and experiment!</p>
+        </div>
+
+        <!-- Navigation Guide -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-blue-800 mb-4">🧭 Website Navigation</h2>
+                <ul class="space-y-3 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="font-semibold mr-2">About Us:</span> Learn about our project and team
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-semibold mr-2">Algorithms:</span> Detailed explanations of each disk scheduling method
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-semibold mr-2">Simulator:</span> Try out different algorithms in action
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-semibold mr-2">Contact Us:</span> Get in touch with questions or feedback
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-green-800 mb-4">🎯 Getting Started</h2>
+                <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                    <li>Start by reading about the algorithms in the Algorithms section</li>
+                    <li>Click the "Simulator" button to open the interactive tool</li>
+                    <li>Enter your disk queue numbers in the simulator</li>
+                    <li>Choose an algorithm to see it in action</li>
+                    <li>Watch the visualization and analyze the results</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Using the Simulator -->
+        <div class="bg-gradient-to-br from-purple-50 to-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold text-purple-800 mb-4">🖥️ How to Use the Simulator</h2>
+            <div class="space-y-4 text-gray-700">
+                <div>
+                    <h3 class="font-semibold text-purple-700">1. Input Your Data</h3>
+                    <p>Enter the disk queue numbers (0-199) separated by commas in the input field</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-purple-700">2. Select Algorithm</h3>
+                    <p>Choose from FCFS, SSTF, SCAN, or C-SCAN algorithms using the dropdown menu</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-purple-700">3. Watch the Visualization</h3>
+                    <p>Click "Start" to see how the selected algorithm processes your disk queue</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-purple-700">4. Analyze Results</h3>
+                    <p>Review the total head movement and compare different algorithms' efficiency</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips and Tricks -->
+        <div class="bg-gradient-to-br from-yellow-50 to-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-yellow-800 mb-4">💡 Pro Tips</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-yellow-600 mr-2">•</span>
+                    Try the same disk queue with different algorithms to compare their performance
+                </li>
+                <li class="flex items-start">
+                    <span class="text-yellow-600 mr-2">•</span>
+                    Use the pause button during visualization to study each step carefully
+                </li>
+                <li class="flex items-start">
+                    <span class="text-yellow-600 mr-2">•</span>
+                    Check the algorithm descriptions to understand why certain patterns occur
+                </li>
+                <li class="flex items-start">
+                    <span class="text-yellow-600 mr-2">•</span>
+                    Experiment with different queue sizes and number patterns
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-gray-900 to-black text-white py-12 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Disk Scheduling Simulator. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
