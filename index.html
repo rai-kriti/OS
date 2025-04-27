@@ -29,11 +29,11 @@
     <!-- Navbar -->
     <header class="absolute top-0 left-0 w-full z-10 bg-transparent ">
         <nav class="container mx-auto flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-12 py-4 mt-4 sm:mt-10 px-4">
-            <a href="#about" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">About Us</a>
-            <a href="#algorithms" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Algorithms</a>
-            <a href="simulator.html" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Simulator</a>
-            <a href="#contact" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Contact Us</a>
-            <a href="tutorial.html" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center">Tutorial</a>
+            <a href="#about" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center"><i class="fas fa-info-circle pr-2"></i>About Us</a>
+            <a href="#algorithms" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center"><i class="fas fa-microchip pr-2"></i>Algorithms</a>
+            <a href="simulator.html" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center"><i class="fas fa-play pr-2" ></i>Simulator</a>
+            <a href="#contact" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center"><i class="fas fa-envelope pr-2"></i>Contact Us</a>
+            <a href="tutorial.html" class="px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-base sm:text-lg font-bold transition duration-300 hover:bg-white hover:text-black hover:border-gray-800 text-center"><i class="fas fa-book pr-2"></i>Tutorial</a>
 
         </nav>
     </header>
@@ -59,6 +59,55 @@
             <a href="simulator.html" class="inline-block px-6 sm:px-8 py-2 sm:py-3 border border-white rounded-full text-white text-xl sm:text-2xl md:text-3xl font-bold transition-transform transform duration-300 hover:scale-110 hover:bg-white hover:text-black" id="simulator-link">Simulator</a>
         </div>
     </section>
+    <div id="introduction" class="p-8 bg-gradient-to-br from-blue-600/30 to-gray-600 shadow-xl rounded-3xl font-sans space-y-6 max-w-4xl mx-auto transition-all duration-300">
+        <h2 class="text-3xl font-extrabold text-white border-l-4 border-indigo-500 pl-3">What is Disk Scheduling?</h2>
+        <p class="text-white leading-relaxed pl-5">
+          Disk scheduling is how a computer chooses the best order to read or write data on a storage disk. It's like planning a delivery route — it saves time by avoiding back-and-forth movements.
+        </p>
+      
+        <h3 class="text-3xl font-extrabold text-white border-l-4 border-indigo-500 pl-3">Why is Disk Scheduling Important?</h3>
+        <ul class="list-disc pl-8 text-white space-y-2">
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">
+            <span class="font-medium">Faster Performance:</span> Reduces movement time of the read/write head.
+          </li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">
+            <span class="font-medium">Reduces Waiting Time:</span> Efficiently handles multiple requests.
+          </li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">
+            <span class="font-medium">Improves System Efficiency:</span> Keeps the system smooth and responsive.
+          </li>
+        </ul>
+      
+        <h3 class="text-3xl font-extrabold text-white border-l-4 border-indigo-500 pl-3">Where is it Used?</h3>
+        <p class="text-white leading-relaxed">
+          Disk scheduling is found in most operating systems and used when multiple tasks need to access storage. It plays a major role in:
+        </p>
+        <ul class="list-disc pl-8 text-white space-y-2">
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">Operating Systems (Windows, Linux, macOS)</li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">Servers and Data Centers</li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">Databases and Storage Engines</li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">Cloud Storage Systems</li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200">Smart Devices and Consoles</li>
+        </ul>
+      
+        <h3 class="text-3xl font-extrabold text-white border-l-4 border-indigo-500 pl-3">How Does It Work? (Simple Analogy)</h3>
+        <p class="text-white leading-relaxed">
+          Imagine you're delivering mail to rooms 3, 7, 2, and 9. Instead of jumping randomly between rooms, you go in order — 2 → 3 → 7 → 9 — saving time. Disk scheduling works in a similar way to avoid unnecessary delays.
+        </p>
+      
+        <h3 class="text-3xl font-extrabold text-white border-l-4 border-indigo-500 pl-3">Common Disk Scheduling Algorithms</h3>
+        <ul class="list-disc pl-8 text-white space-y-2">
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200"><span class="font-medium">FCFS:</span> First come, first served — simple and fair.</li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200"><span class="font-medium">SSTF:</span> Chooses the nearest request to minimize seek time.</li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200"><span class="font-medium">SCAN:</span> Works like an elevator — moves in one direction serving requests.</li>
+          <li class="hover:pl-2 hover:text-indigo-600 transition-all duration-200"><span class="font-medium">LOOK:</span> Like SCAN but stops where the requests end.</li>
+        </ul>
+      
+        <p class="text-white leading-relaxed">
+          To sum it up — disk scheduling is like an intelligent traffic controller inside your computer, ensuring that data flows quickly, fairly, and efficiently.
+        </p>
+      </div>
+      
 
     <!-- Algorithms Section -->
     <section id="algorithms" class="container mx-auto py-8 sm:py-16 px-4">
@@ -181,10 +230,10 @@
                             <ol class="list-decimal pl-6 space-y-2 text-gray-700">
                                 <li>Start at <strong class="text-blue-600">50</strong></li>
                                 <li>Move to <strong class="text-blue-600">45</strong> (nearest)</li>
-                                <li>Move to <strong class="text-blue-600">20</strong> (next nearest)</li>
-                                <li>Move to <strong class="text-blue-600">10</strong></li>
-                                <li>Move to <strong class="text-blue-600">65</strong></li>
+                                <li>Move to <strong class="text-blue-600">65</strong> (next nearest)</li>
                                 <li>Move to <strong class="text-blue-600">90</strong></li>
+                                <li>Move to <strong class="text-blue-600">20</strong></li>
+                                <li>Move to <strong class="text-blue-600">10</strong></li>
                             </ol>
 
                             <p class="text-gray-700 leading-relaxed mt-4">
@@ -242,12 +291,12 @@
                             
                             <ol class="list-decimal pl-6 space-y-2 text-gray-700">
                                 <li>Start at <strong class="text-blue-600">50</strong></li>
-                                <li>Move to <strong class="text-blue-600">45</strong> (nearest in the same direction)</li>
-                                <li>Move to <strong class="text-blue-600">20</strong></li>
-                                <li>Move to <strong class="text-blue-600">10</strong> (edge of movement)</li>
+                                <li>Move to <strong class="text-blue-600">65</strong> (nearest in the same direction)</li>
+                                <li>Move to <strong class="text-blue-600">90</strong> (edge of movement)</li>
                                 <li><strong class="text-blue-600">Reverse direction</strong></li>
-                                <li>Move to <strong class="text-blue-600">65</strong></li>
-                                <li>Move to <strong class="text-blue-600">90</strong></li>
+                                <li>Move to <strong class="text-blue-600">45</strong></li>
+                                <li>Move to <strong class="text-blue-600">20</strong></li>
+                                <li>Move to <strong class="text-blue-600">10</strong></li>
                             </ol>
                             
                             <p class="text-gray-700 leading-relaxed mt-4">
