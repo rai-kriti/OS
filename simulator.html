@@ -27,6 +27,7 @@
                 <h2 class="font-semibold mb-2">Enter Disk Requests</h2>
                 <input id="requests" type="text" placeholder="Enter Requests" class="w-full p-2 border rounded mb-2 transition duration-300 focus:border-blue-500 hover:border-gray-500">
                 <input id="headPosition" type="number" placeholder="Enter Initial Head Position" class="w-full p-2 border rounded mb-2 transition duration-300 focus:border-blue-500 hover:border-gray-500">
+                <h3 class="font-semibold mb-2 font-semibold text-green-700">Max Disk Track is 200</h2>
                 <div class="flex flex-wrap gap-2 mt-3">
                     <button onclick="toggleAlgorithm('FCFS')" class="bg-blue-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-blue-600 active:scale-95">FCFS</button>
             <button onclick="toggleAlgorithm('SSTF')" class="bg-green-500 text-white px-4 py-2 rounded transition duration-300 hover:bg-green-600 active:scale-95">SSTF</button>
@@ -84,12 +85,18 @@
 
         function runAlgorithms() {
             const requests = document.getElementById("requests").value.split(",").map(Number);
-            const head = parseInt(document.getElementById("headPosition").value);
-            
-            if (isNaN(head) || requests.some(isNaN)) {
-                alert("Invalid input! Please enter valid numbers.");
-                return;
-            }
+    const head = parseInt(document.getElementById("headPosition").value);
+    
+    if (isNaN(head) || requests.some(isNaN)) {
+        alert("Invalid input! Please enter valid numbers.");
+        return;
+    }
+
+    // Validate head and requests within range 0–199
+    if (head < 0 || head > 199 || requests.some(req => req < 0 || req > 199)) {
+        alert("Invalid input! Track numbers must be between 0 and 199.");
+        return;
+    }
             
             let results = Array.from(activeAlgorithms).map(algo => diskScheduling(algo, requests, head));
             updateComparisonChart(results);
@@ -125,6 +132,12 @@
 }else if (algo === 'SCAN') {
     let left = sortedRequests.filter(req => req < head).reverse();
     let right = sortedRequests.filter(req => req >= head);
+
+    // Ensure the head moves to the end of the disk (199) before reversing
+    if (!right.includes(199)) {
+        right.push(199);
+    }
+
     movements.push(...right, ...left);
     order = [head, ...right, ...left];
 
@@ -134,36 +147,31 @@
         seekTime += Math.abs(track - current);
         current = track;
     }
+}else if (algo === 'C-SCAN') {
+        let left = sortedRequests.filter(req => req < head);
+        let right = sortedRequests.filter(req => req >= head);
 
-}else if (algo === 'C-SCAN') { 
-    let left = sortedRequests.filter(req => req < head);
-    let right = sortedRequests.filter(req => req >= head);
+        movements.push(...right);
 
-    // Move to the right side requests (>= head)
-    movements.push(...right);
+        // Ensure move to 199 if not already
+        if (!right.includes(199)) {
+            movements.push(199);
+        }
 
-    // If the last serviced track is not the maximum, move to maximum
-    if (right.length > 0 && right[right.length - 1] !== Math.max(...requests)) {
-        movements.push(Math.max(...requests));
+        // Jump to 0
+        movements.push(0);
+
+        // Now service left requests
+        movements.push(...left);
+
+        order = [head, ...movements];
+
+        let current = head;
+        for (let track of movements) {
+            seekTime += Math.abs(track - current);
+            current = track;
+        }
     }
-
-    // Jump to 0 after servicing the maximum
-    movements.push(0);
-
-    // Now service left side requests (those < head)
-    movements.push(...left);
-
-    // Build the full order
-    order = [head, ...movements];
-
-    // Calculate seek time properly
-    seekTime = 0;
-    let current = head;
-    for (let track of movements) {
-        seekTime += Math.abs(track - current);
-        current = track;
-    }
-}
 
 
 
